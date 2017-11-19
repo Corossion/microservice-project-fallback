@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: FrontEndRestConsumer
+server:
+  port: 8085
+  
+feign:
+  hystrix:
+    enabled:true  
+
+eureka:
+  client:
+    region: default
+    registry-fetch-interval-seconds: 5
+    serviceUrl:
+      defaultZone: http://localhost:8082/eureka/
+      
+student-producer:
+  ribbon:
+    listOfServers: localhost:8083,localhost:8090, localhost:8091
+    ServerListRefreshInterval: 1000

@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: student-producer
+server:
+  port: 8083
+  
+eureka:
+  client:
+    region: default
+    registry-fetch-interval-seconds: 5
+    serviceUrl:
+      defaultZone: http://localhost:8082/eureka/

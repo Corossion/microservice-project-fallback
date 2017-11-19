@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: hystrix-dashboard
+server:
+  port: 8086
+  
+eureka:
+  client:
+    region: default
+    registry-fetch-interval-seconds: 5
+    serviceUrl:
+      defaultZone: http://localhost:8082/eureka/
