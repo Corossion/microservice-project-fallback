@@ -1,0 +1,73 @@
+package de.hftl.FrontEndRestConsumer;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.sleuth.SpanAccessor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import com.netflix.appinfo.InstanceInfo;
+import com.netflix.discovery.EurekaClient;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
+
+@RestController
+public class FrontendController {
+	
+	//private static final Logger LOG = LoggerFactory.getLogger(FrontendController.class);
+	
+	@Autowired
+	private StudentClient studentClient;
+	@Autowired
+	private DozentClient dozentClient;
+	
+	@RequestMapping(value = "/students", method = RequestMethod.GET)
+	public List<Student> findAllStudents(Model model) {	
+		List<Student> allStudents = studentClient.findAllStudents();
+		model.addAttribute("response", allStudents);
+		//LOG.info("Service ist hier");
+	return allStudents;
+	}
+	
+	@RequestMapping(value = "/students/{studentId}", method = RequestMethod.GET)
+	public Student findStudent(@PathVariable int studentId) {
+		Student student = studentClient.findStudent(studentId);
+	    return student;
+	}
+	
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public String getStatus(){
+		String studentStatus = studentClient.getGreeting();
+		String dozentStatus = dozentClient.getGreeting();
+		List<String> statusListe = new ArrayList<String>();
+		statusListe.add(studentStatus);
+		statusListe.add(dozentStatus);
+		return "student-producer: ( " + statusListe.get(0) + ") /n dozent-producer: (" + statusListe.get(1) + ")";
+	}
+	
+	@RequestMapping(value = "/dozents", method = RequestMethod.GET)
+	public List<Dozent> findAllDozents(Model model) {	
+		
+		List<Dozent> allDozents = dozentClient.findAllDozents();
+		model.addAttribute("response", allDozents);
+		//LOG.info("Service ist hier");
+		
+	return allDozents;
+	}
+	
+	@RequestMapping(value = "/dozents/{employeeId}", method = RequestMethod.GET)
+	public Dozent findDozent(@PathVariable int employeeId) {
+		Dozent dozent = dozentClient.findDozent(employeeId);
+	    return dozent;
+	}
+
+}

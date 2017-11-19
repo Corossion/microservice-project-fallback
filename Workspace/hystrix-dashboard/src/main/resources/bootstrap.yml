@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    config:
+      name: hystrix-dashboard 
+      uri: http://localhost:8081
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8082/eureka/

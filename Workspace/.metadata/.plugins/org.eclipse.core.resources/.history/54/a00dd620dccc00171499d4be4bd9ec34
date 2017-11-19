@@ -1,0 +1,8 @@
+package de.hftl.FrontEndRestConsumer;
+
+public class FrontEndFunctionality {
+	
+	public void functionalityTesting() {
+		
+	}
+}

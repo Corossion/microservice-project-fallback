@@ -1,0 +1,21 @@
+package de.hftl.FrontEndRestConsumer;
+
+import java.util.List;
+
+import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@FeignClient(name = "dozent-producer", fallback = FrontendClientFallback.class)
+public interface DozentClient {
+	
+	 @RequestMapping(value="greeting", method = RequestMethod.GET)
+	 String getGreeting();
+	
+	@RequestMapping(produces = {"application/json;charset=utf-8"}, value = "/dozents", method = RequestMethod.GET)
+	public List<Dozent> findAllDozents();
+	
+	@RequestMapping(value = "/dozents/{employeeId}", method = RequestMethod.GET)
+	Dozent findDozent(@PathVariable("employeeId") int employeeId);
+}

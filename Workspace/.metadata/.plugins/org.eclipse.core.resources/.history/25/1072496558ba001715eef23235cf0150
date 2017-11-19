@@ -1,0 +1,49 @@
+package de.hftl.FrontEndRestConsumer;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
+@Component
+class FrontendClientFallback implements StudentClient, DozentClient {
+	
+	private List<Student> dummyStudent = Arrays.asList(
+			new Student(1, "Fallback", "Undefined")
+	);
+	
+	private List<Dozent> dummyDozent = Arrays.asList(
+			new Dozent(1, "Fallback", "Undefined")
+	);
+	
+	@Override
+	public List<Student> findAllStudents() {
+		return dummyStudent;
+	}
+
+	@Override
+	public Student findStudent(int studentId) {
+		return dummyStudent.get(0);
+	}
+
+	@Override
+	public List<Dozent> findAllDozents() {
+		return dummyDozent;
+	}
+
+	@Override
+	public Dozent findDozent(int employeeId) {
+		return dummyDozent.get(0);
+	}
+
+	@Override
+	public String getStatus() {
+		return "Service is Unavailable.";
+	}
+
+	@Override
+	public String getGreeting() {
+		return null;
+	}
+
+}
